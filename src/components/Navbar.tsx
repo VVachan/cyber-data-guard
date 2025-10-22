@@ -1,12 +1,20 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Shield } from 'lucide-react';
+import { Menu, X, Shield, MoreVertical } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
   const { isAuthenticated, logout, user } = useAuth();
 
@@ -26,16 +34,58 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 glass-card border-b border-border/50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/home" className="flex items-center gap-2 group">
-            <div className="relative">
-              <Shield className="w-8 h-8 text-primary animate-glow-pulse" />
-              <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-glow-pulse" />
-            </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              DataGuard
-            </span>
-          </Link>
+          {/* Logo and Sidebar */}
+          <div className="flex items-center gap-2">
+            <Link to="/home" className="flex items-center gap-2 group">
+              <div className="relative">
+                <Shield className="w-8 h-8 text-primary" />
+                <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full" />
+              </div>
+              <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                DataGuard
+              </span>
+            </Link>
+            
+            <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+              <SheetTrigger asChild>
+                <button className="p-2 hover:bg-white/10 rounded-lg transition-colors">
+                  <MoreVertical className="w-5 h-5 text-foreground" />
+                </button>
+              </SheetTrigger>
+              <SheetContent side="left" className="glass-card border-r border-border/50 bg-card/95 backdrop-blur-lg">
+                <SheetHeader>
+                  <SheetTitle className="flex items-center gap-2">
+                    <Shield className="w-6 h-6 text-primary" />
+                    <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                      DataGuard
+                    </span>
+                  </SheetTitle>
+                </SheetHeader>
+                <div className="mt-8 space-y-2">
+                  {links.map((link) => (
+                    <Link
+                      key={link.to}
+                      to={link.to}
+                      onClick={() => setIsSidebarOpen(false)}
+                      className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                        isActive(link.to)
+                          ? 'bg-primary/10 text-primary'
+                          : 'text-muted-foreground hover:bg-white/10 hover:text-primary'
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                  <div className="pt-4 mt-4 border-t border-border/30">
+                    <p className="px-4 text-sm text-muted-foreground mb-3">Hello, {user?.name}</p>
+                    <Button onClick={logout} variant="outline" size="sm" className="w-full">
+                      Logout
+                    </Button>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">

@@ -8,24 +8,24 @@ const Home = () => {
 
   const features = [
     {
-      icon: Lock,
-      title: 'Secure Upload',
-      description: 'Military-grade encryption for your datasets. Your data never leaves your control.',
-    },
-    {
-      icon: Activity,
-      title: 'Real-Time DDoS Detection',
-      description: 'Advanced ML models detect attack patterns instantly with 98%+ accuracy.',
-    },
-    {
-      icon: Brain,
-      title: 'Smart Insights',
-      description: 'AI-powered analysis reveals hidden patterns and provides actionable recommendations.',
+      icon: Upload,
+      title: 'Easy Upload',
+      description: 'Drag and drop your CSV files with support up to 300MB',
     },
     {
       icon: Zap,
-      title: 'AI Assistant',
-      description: 'Get instant help and explanations from our intelligent chatbot companion.',
+      title: 'Quick Analysis',
+      description: 'Get instant insights powered by advanced algorithms',
+    },
+    {
+      icon: Lock,
+      title: 'Secure & Reliable',
+      description: 'Your data is processed securely with enterprise-grade protection',
+    },
+    {
+      icon: Shield,
+      title: 'Privacy First',
+      description: 'We respect your privacy. Files are analyzed and never stored',
     },
   ];
 
@@ -42,14 +42,10 @@ const Home = () => {
             className="text-center max-w-4xl mx-auto"
           >
             <div className="flex justify-center mb-6">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                className="relative"
-              >
+              <div className="relative">
                 <Shield className="w-20 h-20 text-primary glow-primary" />
                 <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full animate-glow-pulse" />
-              </motion.div>
+              </div>
             </div>
             
             <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-glow-pulse">
@@ -104,10 +100,10 @@ const Home = () => {
             className="text-center mb-12"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Powerful Features
+              About DataGuard
             </h2>
-            <p className="text-muted-foreground">
-              Everything you need for advanced threat detection
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              DataGuard is a powerful dataset upload and analysis portal designed to make data insights accessible to everyone.
             </p>
           </motion.div>
 
@@ -138,7 +134,12 @@ const Home = () => {
       <footer className="py-8 border-t border-border/30">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
           <p>© 2025 DataGuard. All rights reserved.</p>
-          <p className="mt-2">Powered by advanced AI and machine learning</p>
+          <p className="mt-2">
+            Contact Support:{' '}
+            <a href="mailto:dataguard2025@gmail.com" className="text-primary hover:underline">
+              dataguard2025@gmail.com
+            </a>
+          </p>
         </div>
       </footer>
     </div>

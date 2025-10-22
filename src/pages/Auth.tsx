@@ -22,6 +22,9 @@ const Auth = () => {
   const [signupEmail, setSignupEmail] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [acceptTerms, setAcceptTerms] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [activeTab, setActiveTab] = useState('login');
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,6 +45,10 @@ const Auth = () => {
     e.preventDefault();
     if (!signupName || !signupEmail || !signupPassword || !confirmPassword) {
       toast.error('Please fill in all fields');
+      return;
+    }
+    if (!acceptTerms) {
+      toast.error('Please accept the Terms & Privacy Policy');
       return;
     }
     if (signupPassword !== confirmPassword) {
@@ -71,25 +78,12 @@ const Auth = () => {
           className="hidden md:flex flex-col items-center justify-center space-y-6"
         >
           <div className="relative">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-            >
-              <Shield className="w-40 h-40 text-primary glow-primary" />
-            </motion.div>
+            <Shield className="w-40 h-40 text-primary glow-primary" />
             <motion.div
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
               className="absolute inset-0 bg-primary/20 blur-3xl rounded-full"
             />
-          </div>
-          <div className="text-center space-y-2">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Secure by Design
-            </h2>
-            <p className="text-muted-foreground max-w-md">
-              Protect your data with military-grade encryption and advanced threat detection
-            </p>
           </div>
         </motion.div>
 
@@ -104,7 +98,7 @@ const Auth = () => {
             <h1 className="text-2xl font-bold">DataGuard Access</h1>
           </div>
 
-          <Tabs defaultValue="login" className="space-y-6">
+          <Tabs defaultValue="login" className="space-y-6" value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="login">Login</TabsTrigger>
               <TabsTrigger value="signup">Sign Up</TabsTrigger>
@@ -133,9 +127,31 @@ const Auth = () => {
                     onChange={(e) => setLoginPassword(e.target.value)}
                   />
                 </div>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="remember-me"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    className="w-4 h-4 accent-primary"
+                  />
+                  <Label htmlFor="remember-me" className="text-sm cursor-pointer">
+                    Remember me
+                  </Label>
+                </div>
                 <Button type="submit" className="w-full">
                   Login
                 </Button>
+                <p className="text-center text-sm text-muted-foreground">
+                  Don't have an account?{' '}
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('signup')}
+                    className="text-primary hover:underline"
+                  >
+                    Sign Up
+                  </button>
+                </p>
               </form>
             </TabsContent>
 
@@ -180,6 +196,18 @@ const Auth = () => {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                   />
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="accept-terms"
+                    checked={acceptTerms}
+                    onChange={(e) => setAcceptTerms(e.target.checked)}
+                    className="w-4 h-4 accent-primary"
+                  />
+                  <Label htmlFor="accept-terms" className="text-sm cursor-pointer">
+                    I accept the Terms & Privacy Policy
+                  </Label>
                 </div>
                 <Button type="submit" className="w-full">
                   Create Account
